@@ -1,10 +1,10 @@
 using Godot;
 using System;
 
-public partial class Player : CharacterBody2D
+public partial class player : CharacterBody2D
 {
-	public const float Speed = 300.0f;
-	public const float JumpVelocity = -400.0f;
+	public const float Speed = 100;
+	public const float JumpVelocity = -200;
 
 	public override void _PhysicsProcess(double delta)
 	{
