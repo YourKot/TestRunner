@@ -14,13 +14,12 @@ public partial class Meteor : RigidBody2D
         if (body is TileMapLayer tileMap)
         {
             GD.Print("Столкнулся с тайлмапом!");
-
         }
 
         if (body is Player player) 
         {
             GD.Print("Столкнулся с игроком!");
-
+            player.GetInjured(1);
         }
     }
 }

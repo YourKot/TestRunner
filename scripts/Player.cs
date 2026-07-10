@@ -3,8 +3,27 @@ using System;
 
 public partial class Player : CharacterBody2D
 {
-	public const float Speed = 300.0f;
-	public const float JumpVelocity = -400.0f;
+	[Export] public float Speed = 300.0f;
+	[Export] public float JumpVelocity = -400.0f;
+	[Export] public int Health = 5;
+	[Export] public HBoxContainer HeartsContainer;
+
+	public void GetInjured(int damage)
+	{
+		Health -= damage;
+		if(Health <= 0) Dead();
+		else UpdateHeartsUI();
+	}
+
+	public void Dead()
+	{
+		GD.Print("мертв X(");
+	}
+
+    public override void _Ready()
+    {
+        UpdateHeartsUI();
+    }
 
 	public override void _PhysicsProcess(double delta)
 	{
@@ -36,5 +55,26 @@ public partial class Player : CharacterBody2D
 
 		Velocity = velocity;
 		MoveAndSlide();
+	}
+
+	private void UpdateHeartsUI()
+	{
+		if (HeartsContainer == null)
+		{
+			GD.Print("HeartsContainer не назначен в Инспекторе!");
+			return;
+		}
+
+		// Получаем список всех дочерних узлов (наших сердечек)
+		var hearts = HeartsContainer.GetChildren();
+
+		for (int i = 0; i < hearts.Count; i++)
+		{
+			if (hearts[i] is Control heartNode)
+			{
+				// Если индекс меньше текущего здоровья — показываем сердечко, иначе — скрываем
+				heartNode.Visible = i < Health;
+			}
+		}
 	}
 }
